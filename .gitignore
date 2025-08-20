@@ -1,0 +1,26 @@
+# Node / monorepo common
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+.DS_Store
+
+# Frontend build
+dist/
+.vite/
+
+# Vercel/Netlify
+.vercel/
+.netlify/
+
+# Coverage, logs
+coverage/
+*.log
+
+# Local envs (keep only example files in git)
+.env
+.env.*
+!.env.example
+
+# Backend temp uploads
+backend/uploads/
