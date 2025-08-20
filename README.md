@@ -1,12 +1,42 @@
-# React + Vite
+#📚 ChaiDocChat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered document chat app ☕️ — upload PDFs, paste text, or share website URLs and instantly chat with your knowledge.
+Built with React + Vite (frontend), Node.js + Express (backend), LangChain + Qdrant (vector DB), and OpenAI for natural responses.
 
-Currently, two official plugins are available:
+#🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📄 Upload documents (PDF, TXT, CSV, JSON) and ask questions.
 
-## Expanding the ESLint configuration
+📝 Paste text snippets directly into the app.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🔗 Share website URLs (experimental crawler support).
+
+🧠 Contextual AI answers powered by RAG (Retrieval-Augmented Generation).
+
+🗂 Vector search with Qdrant for fast, semantic lookups.
+
+🎭 Custom persona (e.g., Hitesh Choudhary style assistant 🧑‍🏫).
+
+## 🛠️ Tech Stack
+Frontend
+
+⚡ React
+ + Vite
+
+🎨 Tailwind CSS
+
+🔄 Axios for API calls
+
+🌐 Hosted on Vercel
+
+Backend
+
+🟢 Node.js + Express
+
+🔗 LangChain for document parsing, chunking & embeddings
+
+📊 Qdrant (vector database)
+
+🤖 OpenAI GPT models (gpt-4o-mini by default)
+
+☁️ Hosted on Render
