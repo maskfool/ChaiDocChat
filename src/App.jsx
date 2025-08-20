@@ -48,6 +48,7 @@ export default function App() {
       console.error("URL upload failed:", err);
     }
   }
+console.log("API_BASE from Vite:", import.meta.env.VITE_API_BASE);
 
   async function sendMessage(text) {
     if (!text.trim()) return;
