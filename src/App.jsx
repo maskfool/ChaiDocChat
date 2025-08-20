@@ -15,9 +15,17 @@ export default function App() {
     },
   ]);
 
-  function addSystemMessage(text) {
-    const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    setMessages((m) => [...m, { id: Date.now(), role: "system", text, time: now() }]);
+  const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  function addSystemMessage(text, customId = Date.now()) {
+    setMessages((m) => [...m, { id: customId, role: "system", text, time: now() }]);
+    return customId;
+  }
+
+  function updateSystemMessage(id, newText) {
+    setMessages((m) =>
+      m.map((msg) => (msg.id === id ? { ...msg, text: newText, time: now() } : msg))
+    );
   }
 
   function addFiles(fileList) {
@@ -26,12 +34,14 @@ export default function App() {
 
     files.forEach(async (f) => {
       setUploads((u) => [...u, { id: f.name, kind: "file", name: f.name, size: f.size }]);
+      const pendingId = Date.now() + Math.random();
+      addSystemMessage(`⏳ Uploading & scanning file "${f.name}"...`, pendingId);
       try {
         await uploadFile(f);
-        addSystemMessage(`✅ File "${f.name}" uploaded & indexed successfully!`);
+        updateSystemMessage(pendingId, `✅ File "${f.name}" uploaded & indexed successfully!`);
       } catch (err) {
         console.error("File upload failed:", err);
-        addSystemMessage(`❌ File "${f.name}" upload failed.`);
+        updateSystemMessage(pendingId, `❌ File "${f.name}" upload failed.`);
       }
     });
   }
@@ -39,42 +49,55 @@ export default function App() {
   async function addText(text) {
     if (!text.trim()) return;
     setUploads((u) => [...u, { id: `txt-${Date.now()}`, kind: "text", name: text.slice(0, 40) }]);
+    const pendingId = Date.now() + Math.random();
+    addSystemMessage("⏳ Processing your text snippet...", pendingId);
     try {
       await uploadText(text);
-      addSystemMessage("✅ Text snippet added & processed successfully!");
+      updateSystemMessage(pendingId, "✅ Text snippet added & processed successfully!");
     } catch (err) {
       console.error("Text upload failed:", err);
-      addSystemMessage("❌ Failed to process text snippet.");
+      updateSystemMessage(pendingId, "❌ Failed to process text snippet.");
     }
   }
 
   async function addUrl(url) {
     if (!url.trim()) return;
     setUploads((u) => [...u, { id: `url-${Date.now()}`, kind: "url", name: url }]);
+    const pendingId = Date.now() + Math.random();
+    addSystemMessage(`⏳ Crawling & scanning URL "${url}"...`, pendingId);
     try {
       await uploadUrl(url);
-      addSystemMessage(`✅ URL "${url}" crawled & indexed successfully!`);
+      updateSystemMessage(pendingId, `✅ URL "${url}" crawled & indexed successfully!`);
     } catch (err) {
       console.error("URL upload failed:", err);
-      addSystemMessage(`❌ Failed to process URL "${url}".`);
+      updateSystemMessage(pendingId, `❌ Failed to process URL "${url}".`);
     }
   }
 
   async function sendMessage(text) {
     if (!text.trim()) return;
 
-    const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    const userMsg = { id: Date.now(), role: "user", text, time: now() };
+    const userId = Date.now();
+    const pendingId = userId + 1;
 
-    setMessages((m) => [...m, userMsg]);
+    setMessages((m) => [
+      ...m,
+      { id: userId, role: "user", text, time: now() },
+      { id: pendingId, role: "assistant", text: "⏳ Thinking...", time: now() },
+    ]);
 
     try {
       const res = await askQuestion(text);
-      const aiMsg = { id: Date.now() + 1, role: "assistant", text: res.answer, time: now() };
-      setMessages((m) => [...m, aiMsg]);
+      setMessages((m) =>
+        m.map((msg) => (msg.id === pendingId ? { ...msg, text: res.answer } : msg))
+      );
     } catch (err) {
       console.error("Chat error:", err);
-      addSystemMessage("❌ Chat request failed. Please try again.");
+      setMessages((m) =>
+        m.map((msg) =>
+          msg.id === pendingId ? { ...msg, text: "❌ Chat request failed. Please try again." } : msg
+        )
+      );
     }
   }
 
@@ -87,12 +110,12 @@ export default function App() {
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 min-h-0">
         <aside className="w-[340px] border-r bg-neutral-50/70 p-4 overflow-y-auto">
           <Sidebar uploads={uploads} addFiles={addFiles} addText={addText} addUrl={addUrl} />
         </aside>
 
-        <section className="flex-1 min-w-0 flex flex-col">
+        <section className="flex-1 min-w-0 min-h-0 flex flex-col">
           <div className="border-b px-4 py-3 bg-white/70 backdrop-blur">
             <div className="text-sm font-medium">Chat with your documents</div>
             <div className="text-xs text-neutral-500">Upload documents to start chatting</div>

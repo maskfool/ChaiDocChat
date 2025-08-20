@@ -3,11 +3,13 @@ import MessageBubble from './MessageBubble'
 
 export default function ChatArea({ messages, onSend }) {
   const [val, setVal] = useState('')
-  const boxRef = useRef(null)
+  const endRef = useRef(null)
 
   useEffect(() => {
-    if (!boxRef.current) return
-    boxRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth' })
+    const id = requestAnimationFrame(() => {
+      endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    })
+    return () => cancelAnimationFrame(id)
   }, [messages])
 
   function handleSend() {
@@ -18,13 +20,15 @@ export default function ChatArea({ messages, onSend }) {
 
   return (
     <div className="flex-1 min-h-0 flex flex-col">
-      <div ref={boxRef} className="flex-1 overflow-y-auto px-4 py-6 overscroll-contain">
+      {/* Viewport: must have min-h-0 + max-h-full + overflow-y-auto */}
+      <div className="flex-1 min-h-0 max-h-full overflow-y-auto px-4 py-6 overscroll-contain">
         <div className="space-y-1">
           {messages.map(m => (
             <MessageBubble key={m.id} role={m.role} time={m.time}>
               {m.text}
             </MessageBubble>
           ))}
+          <div ref={endRef} />
         </div>
       </div>
 
