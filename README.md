@@ -1,5 +1,7 @@
 ## 📚 ChaiDocChat
 
+### URL - [https://chai-doc-chat.vercel.app/]
+
 An AI-powered document chat app ☕️ — upload PDFs, paste text, or share website URLs and instantly chat with your knowledge.
 Built with React + Vite (frontend), Node.js + Express (backend), LangChain + Qdrant (vector DB), and OpenAI for natural responses.
 
