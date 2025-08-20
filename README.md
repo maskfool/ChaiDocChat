@@ -1,9 +1,9 @@
-#📚 ChaiDocChat
+## 📚 ChaiDocChat
 
 An AI-powered document chat app ☕️ — upload PDFs, paste text, or share website URLs and instantly chat with your knowledge.
 Built with React + Vite (frontend), Node.js + Express (backend), LangChain + Qdrant (vector DB), and OpenAI for natural responses.
 
-#🚀 Features
+## 🚀 Features
 
 📄 Upload documents (PDF, TXT, CSV, JSON) and ask questions.
 
@@ -17,7 +17,7 @@ Built with React + Vite (frontend), Node.js + Express (backend), LangChain + Qdr
 
 🎭 Custom persona (e.g., Hitesh Choudhary style assistant 🧑‍🏫).
 
-## 🛠️ Tech Stack
+### 🛠️ Tech Stack
 Frontend
 
 ⚡ React
