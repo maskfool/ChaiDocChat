@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocChat - Local Auth Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            border-left: 4px solid #f97315;
+        }
+        .test-button {
+            background: linear-gradient(45deg, #f97315, #ea580c);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 21, 0.3);
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; }
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        .info { background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; }
+        .code {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 ChaiDocChat Local Authentication Test</h1>
+        
+        <div class="test-section">
+            <h2>📋 Test Instructions</h2>
+            <p>Follow these steps to test your authentication setup:</p>
+            <ol>
+                <li><strong>Open the main app:</strong> <a href="http://localhost:5173" target="_blank" style="color: #f97315;">http://localhost:5173</a></li>
+                <li><strong>You should see your beautiful login page</strong></li>
+                <li><strong>Test sign up:</strong> Use any email (e.g., test@example.com) and password</li>
+                <li><strong>Test sign in:</strong> Use the same credentials</li>
+                <li><strong>Verify features:</strong> Upload a document and test chat</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Server Status Check</h2>
+            <button class="test-button" onclick="checkBackend()">Check Backend API</button>
+            <button class="test-button" onclick="checkFrontend()">Check Frontend</button>
+            <button class="test-button" onclick="testAuth()">Test Authentication</button>
+            <div id="status"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 Test Credentials</h2>
+            <p>For local testing, you can use any of these:</p>
+            <div class="code">
+                Email: test@example.com<br>
+                Password: testpassword123<br><br>
+                Email: demo@chaidoc.com<br>
+                Password: demopass456<br><br>
+                Email: user@test.local<br>
+                Password: userpass789
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🐛 Troubleshooting</h2>
+            <p>If you encounter issues:</p>
+            <ul>
+                <li><strong>Backend not running:</strong> Run <code>cd backend && npm run dev</code></li>
+                <li><strong>Frontend not running:</strong> Run <code>npm run dev</code></li>
+                <li><strong>Port conflicts:</strong> Check if ports 5001 and 5173 are free</li>
+                <li><strong>Clerk errors:</strong> Verify your Clerk keys in .env files</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>✅ Expected Behavior</h2>
+            <p>When everything works correctly:</p>
+            <ul>
+                <li>Login page loads with your custom design</li>
+                <li>Sign up creates a new user account</li>
+                <li>Sign in works with existing credentials</li>
+                <li>After login, you see the main app with your name</li>
+                <li>All API calls include authentication headers</li>
+                <li>User data is isolated (each user sees only their documents)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch('http://localhost:5001/api/health');
+                const data = await response.json();
+                showStatus('✅ Backend API is running: ' + JSON.stringify(data), 'success');
+            } catch (error) {
+                showStatus('❌ Backend API error: ' + error.message, 'error');
+            }
+        }
+
+        async function checkFrontend() {
+            try {
+                const response = await fetch('http://localhost:5173');
+                if (response.ok) {
+                    showStatus('✅ Frontend is running at http://localhost:5173', 'success');
+                } else {
+                    showStatus('❌ Frontend error: ' + response.status, 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Frontend error: ' + error.message, 'error');
+            }
+        }
+
+        async function testAuth() {
+            try {
+                // Test protected endpoint without auth
+                const response = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: 'test' })
+                });
+                const data = await response.json();
+                
+                if (data.success === false && data.error.includes('authorization')) {
+                    showStatus('✅ Authentication is working - API correctly rejects unauthorized requests', 'success');
+                } else {
+                    showStatus('⚠️ Authentication might not be working - API accepted unauthorized request', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Auth test error: ' + error.message, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        // Auto-check on page load
+        window.onload = function() {
+            checkBackend();
+            setTimeout(checkFrontend, 1000);
+        }
+    </script>
+</body>
+</html>

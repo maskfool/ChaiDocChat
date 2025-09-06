@@ -14,7 +14,23 @@ export async function uploadText(text) {
   return res.data;
 }
 
-export async function uploadUrl(url) {
-  const res = await api.post("/api/ingest/url", { url });
+export async function uploadUrl(url, options = {}) {
+  const { depth = 1, maxPages = 10, enhanced = false } = options;
+  const res = await api.post("/api/ingest/url", { 
+    url, 
+    depth, 
+    maxPages, 
+    enhanced 
+  });
+  return res.data;
+}
+
+export async function uploadDocumentation(url, options = {}) {
+  const { maxPages = 100, maxDepth = 4 } = options;
+  const res = await api.post("/api/ingest/documentation", { 
+    url, 
+    maxPages, 
+    maxDepth 
+  });
   return res.data;
 }

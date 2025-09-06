@@ -1,4 +1,4 @@
-## 📚 ChaiDocChat
+## 📚 DocChat
 
 ### YT Demo - [https://youtu.be/XTVJBHUn9G4]
 

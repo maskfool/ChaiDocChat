@@ -6,8 +6,9 @@ export const qdrant = new QdrantClient({
   apiKey: process.env.QDRANT_API_KEY || undefined,
 })
 
-export async function ensureCollection() {
-  const name = process.env.QDRANT_COLLECTION || 'chaicode-collection'
+export async function ensureCollection(userId = null) {
+  const baseName = process.env.QDRANT_COLLECTION || 'chaicode-collection'
+  const name = userId ? `${baseName}-user-${userId}` : baseName
   const dim = Number(process.env.EMBEDDING_DIM || 1536)
   const { collections } = await qdrant.getCollections()
   const exists = collections.some(c => c.name === name)
@@ -19,4 +20,10 @@ export async function ensureCollection() {
   } else {
     console.log('[qdrant] using collection:', name)
   }
+  return name
+}
+
+export function getCollectionName(userId = null) {
+  const baseName = process.env.QDRANT_COLLECTION || 'chaicode-collection'
+  return userId ? `${baseName}-user-${userId}` : baseName
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Formatting Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">DocChat Code Formatting Test</h1>
+        
+        <!-- Test Message with Code Blocks -->
+        <div class="bg-white rounded-2xl border p-6 shadow-sm mb-6">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">AI</div>
+                <span class="text-sm text-gray-500">Hitesh Choudhary • 2:30 PM</span>
+            </div>
+            
+            <div class="space-y-4">
+                <p>Arre bhai, chalo dekhte hain kaise <code class="bg-gray-100 px-2 py-1 rounded">console.log()</code> use karke hum console me output de sakte hain.</p>
+                
+                <!-- JavaScript Code Block -->
+                <div class="group relative my-4">
+                    <div class="flex items-center justify-between px-4 py-2 rounded-t-xl border-b bg-gray-100 border-gray-200 text-gray-600">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🟨</span>
+                            <span class="text-xs font-medium uppercase tracking-wider">javascript</span>
+                        </div>
+                        <button class="flex items-center gap-1 px-3 py-1 text-xs rounded-md transition-all duration-200 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 border border-gray-300">
+                            <span>📋</span>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <pre class="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-b-xl border-t-0 bg-gray-950 text-gray-100 border-gray-200 text-sm p-4">
+                        <code class="whitespace-pre break-words font-mono leading-relaxed">const x = 'Hello';
+const y = 'World';
+
+// Ye dono variable print karenge console me
+console.log(x, y);</code>
+                    </pre>
+                </div>
+                
+                <p>Yahan pe jab hum run karenge to output milega:</p>
+                
+                <!-- Output Code Block -->
+                <div class="group relative my-4">
+                    <div class="flex items-center justify-between px-4 py-2 rounded-t-xl border-b bg-gray-100 border-gray-200 text-gray-600">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">💻</span>
+                            <span class="text-xs font-medium uppercase tracking-wider">output</span>
+                        </div>
+                        <button class="flex items-center gap-1 px-3 py-1 text-xs rounded-md transition-all duration-200 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 border border-gray-300">
+                            <span>📋</span>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <pre class="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-b-xl border-t-0 bg-gray-950 text-gray-100 border-gray-200 text-sm p-4">
+                        <code class="whitespace-pre break-words font-mono leading-relaxed">Hello World</code>
+                    </pre>
+                </div>
+                
+                <p>Practice zaroor karna, ye cheez interview me kaam aayegi! 💪</p>
+            </div>
+        </div>
+        
+        <!-- Features List -->
+        <div class="bg-blue-50 rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-4">✨ Enhanced Code Formatting Features</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li>✅ <strong>Language Detection:</strong> Automatically detects JavaScript, Python, JSON, SQL, etc.</li>
+                <li>✅ <strong>Copy Button:</strong> One-click copy with visual feedback</li>
+                <li>✅ <strong>Syntax Highlighting:</strong> Proper code formatting with monospace font</li>
+                <li>✅ <strong>Language Icons:</strong> Visual indicators for different programming languages</li>
+                <li>✅ <strong>Dark/Light Theme:</strong> Adapts to your theme preference</li>
+                <li>✅ <strong>Responsive Design:</strong> Works on all screen sizes</li>
+                <li>✅ <strong>Console.log Detection:</strong> Automatically formats console.log statements</li>
+                <li>✅ <strong>JSON Formatting:</strong> Pretty-prints JSON objects</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
