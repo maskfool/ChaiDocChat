@@ -2,12 +2,11 @@
 
 ### YT Demo - [https://youtu.be/XTVJBHUn9G4]
 
-### URL - [https://chai-doc-chat.vercel.app/]
+
 
 #### NOTE - Sorry Dark mode users I thought for Paper page like document theme which look like document. 
 #### wait for 5 sec after any doc upload or any URL upload or any text upload 
 
-## Added Hitesh sir like small persona which convert english content to Hitesh sir like Hindi teaching style
 
 An AI-powered document chat app ☕️ — upload PDFs, paste text, or share website URLs and instantly chat with your knowledge.
 Built with React + Vite (frontend), Node.js + Express (backend), LangChain + Qdrant (vector DB), and OpenAI for natural responses.
