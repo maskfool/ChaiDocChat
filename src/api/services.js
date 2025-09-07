@@ -4,7 +4,7 @@ import api from './client.js'
 // Chat service with enhanced memory
 export const chatService = {
   async askQuestion(query, options = {}) {
-    const response = await api.post('/api/chat', { 
+    const response = await api.post('/chat', { 
       query, 
       topK: options.topK 
     })
@@ -12,12 +12,12 @@ export const chatService = {
   },
 
   async getRecentDocuments(hours = 24) {
-    const response = await api.get(`/api/documents/recent?hours=${hours}`)
+    const response = await api.get(`/documents/recent?hours=${hours}`)
     return response.data
   },
 
   async getConversationContext(limit = 10) {
-    const response = await api.get(`/api/conversation/context?limit=${limit}`)
+    const response = await api.get(`/conversation/context?limit=${limit}`)
     return response.data
   }
 }
@@ -27,19 +27,19 @@ export const documentService = {
   async uploadFile(file) {
     const formData = new FormData()
     formData.append("file", file)
-    const response = await api.post("/api/ingest/file", formData, {
+    const response = await api.post("/ingest/file", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     return response.data
   },
 
   async uploadText(text, source = 'pasted-text') {
-    const response = await api.post("/api/ingest/text", { text, source })
+    const response = await api.post("/ingest/text", { text, source })
     return response.data
   },
 
   async uploadUrl(url, options = {}) {
-    const response = await api.post("/api/ingest/url", { 
+    const response = await api.post("/ingest/url", { 
       url, 
       depth: options.depth || 1,
       maxPages: options.maxPages || 10,
@@ -49,7 +49,7 @@ export const documentService = {
   },
 
   async uploadDocumentation(url, options = {}) {
-    const response = await api.post("/api/ingest/documentation", { 
+    const response = await api.post("/ingest/documentation", { 
       url, 
       maxPages: options.maxPages || 100,
       maxDepth: options.maxDepth || 4
@@ -61,7 +61,7 @@ export const documentService = {
 // Health check service
 export const healthService = {
   async check() {
-    const response = await api.get('/api/health')
+    const response = await api.get('/health')
     return response.data
   }
 }
